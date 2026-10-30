@@ -12,6 +12,10 @@ jobs:
           java-version: '17'
       - name: Accept Android licenses
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      - name: Add missing Material dependency
+        run: |
+          sed -i "/androidx.core:core-ktx:1.12.0/a\\    implementation 'com.google.android.material:material:1.11.0'" app/build.gradle
+          grep -n "material:material" app/build.gradle
       - name: Give Gradle more memory
         run: |
           mkdir -p ~/.gradle
